@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  app:
+    build:
+      context: app
+      dockerfile: dockerfile.dev
+    environment:
+      DB_NAME: "is-chat-app_db"
+      DB_USER: "is-chat-app"
+      DB_PASS: "ischatapp"
+    ports:
+      - 3000:3000
+  db:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: "true"
+      MARIADB_DATABASE: "is-chat-app_db"
+      MARIADB_USER: "is-chat-app"
+      MARIADB_PASSWORD: "ischatapp"
+    volumes:
+    - mariadb_data:/var/lib/mysql
+    - ./db/initdb.d/:/docker-entrypoint-initdb.d/:ro
+
+volumes:
+  mariadb_data:
