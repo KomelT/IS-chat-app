@@ -8,6 +8,8 @@ services:
       DB_NAME: "D-real-social-app_db"
       DB_USER: "D-real-social-app"
       DB_PASS: "drealsocialapp"
+    volumes:
+      - ./app:/app
     ports:
       - 3000:3000
   db:

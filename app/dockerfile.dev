@@ -6,8 +6,6 @@ COPY *.csproj ./
 
 RUN dotnet restore
 
-COPY . ./
-
 EXPOSE 3000
 
-ENTRYPOINT ["dotnet", "run", "--urls=http://0.0.0.0:3000/"]
+ENTRYPOINT ["dotnet", "watch", "run"]
