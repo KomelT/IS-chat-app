@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace is_chat_app.Pages;
+namespace D_real_social_app.Pages;
 
 public class IndexModel : PageModel
 {

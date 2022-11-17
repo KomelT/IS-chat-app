@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>is_chat_app</RootNamespace>
+    <RootNamespace>D_real_social_app</RootNamespace>
   </PropertyGroup>
 
 </Project>
