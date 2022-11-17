@@ -8,6 +8,10 @@ The idea behind the app is to create a new social app that will not sell data an
 1. `docker-compose up`
 2. Open it on http://0.0.0.0:3000
 
+### Fresh Docker build
+
+`docker-compose down -v && docker-compose build --no-cache && docker-compose up`
+
 ## Database design
 
 [Online database design](https://app.dynobird.com/?action=open&id=ae9410b9-a08a-401d-9768-ce1bb1bfcaac)
