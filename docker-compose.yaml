@@ -8,10 +8,12 @@ services:
       DB_NAME: "D-real-social-app_db"
       DB_USER: "D-real-social-app"
       DB_PASS: "drealsocialapp"
+      DOTNET_WATCH_AUTO_RELOAD_WS_HOSTNAME: "localhost:3001;http://*:5005;http://127.0.0.1"
     volumes:
       - ./app:/app
     ports:
       - 3000:3000
+      - 3001:5005
   db:
     image: mariadb:latest
     restart: always
