@@ -9,8 +9,7 @@ The idea behind the app is to create a new social app that will not sell data an
 
 1. `docker-compose up`
 2. Open it on http://0.0.0.0:3000
-3. Change code
-4. F5 in browser to see updates (for now)
+3. Change code, save and the browser should hot reload
 
 ### Fresh Docker build
 
