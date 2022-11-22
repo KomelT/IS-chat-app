@@ -1,9 +1,21 @@
+using D_real_social_app.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<SocialAppContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("SocialAppContext")));
 
 var app = builder.Build();
+
+// Seed database using DbInitializer 
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<SocialAppContext>();
+    DbInitializer.Initialize(context);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
