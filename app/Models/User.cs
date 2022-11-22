@@ -7,7 +7,7 @@ public class User
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int UserID { get; }
     public string Photo { get; set; }
-    public string FisrtName { get; set; }
+    public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }
     public string Pass { get; set; }
