@@ -5,7 +5,7 @@ namespace D_real_social_app.Models;
 public class User
 {
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
-    public int UserID { get; }
+    public int UserID { get; set; }
     public string Photo { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
