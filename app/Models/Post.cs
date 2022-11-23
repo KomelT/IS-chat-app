@@ -6,5 +6,5 @@ public class Post
 {
     public int PostID { get; set; }
     public int UserID { get; set; }
-    public string Text { get; set; }
+    public string? Text { get; set; }
 }

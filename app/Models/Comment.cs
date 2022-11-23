@@ -7,5 +7,5 @@ public class Comment
     public int CommentID { get; set; }
     public int UserID { get; set; }
     public int PostID { get; set; }
-    public string Text { get; set; }
+    public string? Text { get; set; }
 }
