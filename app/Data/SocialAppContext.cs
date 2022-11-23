@@ -1,9 +1,10 @@
 using D_real_social_app.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace D_real_social_app.Data
 {
-    public class SocialAppContext : DbContext
+    public class SocialAppContext : IdentityDbContext<User>
     {
         public SocialAppContext(DbContextOptions<SocialAppContext> options) : base(options)
         {
@@ -16,6 +17,7 @@ namespace D_real_social_app.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<Post>().ToTable("Post");
             modelBuilder.Entity<Comment>().ToTable("Comment");

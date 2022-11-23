@@ -19,8 +19,8 @@ namespace D_real_social_app.Data
 
             var users = new User[]
             {
-                new User{Photo="", FirstName="Lojze", LastName="Novak", Email="lojze.novak@gmail.com", Pass="dssaasdsadsadsadsadsadfhf", Usern="lojze.novak"},
-                new User{Photo="", FirstName="Janez", LastName="Komel", Email="janez.komel@gmail.com", Pass="dssaasdsadsadsadsadsadfhf", Usern="janez.komel"}
+                new User{Photo="", FirstName="Lojze", LastName="Novak"},
+                new User{Photo="", FirstName="Janez", LastName="Komel"}
             };
 
             context.User.AddRange(users);
