@@ -1,12 +1,22 @@
 using D_real_social_app.Data;
+using D_real_social_app.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("SocialAppContext");
+
+builder.Services.AddDbContext<SocialAppContext>(options =>
+    options.UseSqlServer(connectionString));
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<SocialAppContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("SocialAppContext")));
+
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<SocialAppContext>();
 
 var app = builder.Build();
 
@@ -29,6 +39,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();
+
+app.MapRazorPages();
 
 app.UseAuthorization();
 
