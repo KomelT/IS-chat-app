@@ -8,4 +8,4 @@ RUN dotnet restore
 
 EXPOSE 3000
 
-ENTRYPOINT ["dotnet", "watch", "run"]
+ENTRYPOINT ["dotnet", "watch", "run", "--arch x64 --os linux"]
