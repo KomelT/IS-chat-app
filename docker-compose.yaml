@@ -15,16 +15,10 @@ services:
       - 3000:3000
       - 3001:5005
   db:
-    image: mariadb:latest
+    image: mcr.microsoft.com/mssql/server
     restart: always
     environment:
-      MARIADB_RANDOM_ROOT_PASSWORD: "true"
-      MARIADB_DATABASE: "D-real-social-app_db"
-      MARIADB_USER: "D-real-social-app"
-      MARIADB_PASSWORD: "drealsocialapp"
-    volumes:
-      - mariadb_data:/var/lib/mysql
-      - ./db/initdb.d/:/docker-entrypoint-initdb.d/:ro
-
-volumes:
-  mariadb_data:
+      MSSQL_SA_PASSWORD: "drealSocial-app"
+      ACCEPT_EULA: "Y"
+    ports:
+      - 1433:1433
