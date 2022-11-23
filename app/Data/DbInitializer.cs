@@ -19,8 +19,8 @@ namespace D_real_social_app.Data
 
             var users = new User[]
             {
-                new User{UserID=1, Photo="", FirstName="Lojze", LastName="Novak", Email="lojze.novak@gmail.com", Pass="dssaasdsadsadsadsadsadfhf", Usern="lojze.novak"},
-                new User{UserID=2, Photo="", FirstName="Janez", LastName="Komel", Email="janez.komel@gmail.com", Pass="dssaasdsadsadsadsadsadfhf", Usern="janez.komel"}
+                new User{Photo="", FirstName="Lojze", LastName="Novak", Email="lojze.novak@gmail.com", Pass="dssaasdsadsadsadsadsadfhf", Usern="lojze.novak"},
+                new User{Photo="", FirstName="Janez", LastName="Komel", Email="janez.komel@gmail.com", Pass="dssaasdsadsadsadsadsadfhf", Usern="janez.komel"}
             };
 
             context.User.AddRange(users);
@@ -28,7 +28,7 @@ namespace D_real_social_app.Data
 
             var posts = new Post[]
             {
-                new Post{PostID=1, UserID=1, Text="Hello World, first post."}
+                new Post{ UserID=1, Text="Hello World, first post."}
             };
 
             context.Post.AddRange(posts);
@@ -36,7 +36,7 @@ namespace D_real_social_app.Data
 
             var comments = new Comment[]
             {
-                new Comment{CommentID=1, UserID=1, PostID=1, Text="First comment."}
+                new Comment{UserID=1, PostID=1, Text="First comment."}
             };
 
             context.Comment.AddRange(comments);
@@ -44,10 +44,10 @@ namespace D_real_social_app.Data
 
             var connections = new Connection[]
             {
-                new Connection{ConnectionID=1, UserID=1, UserID2=2}
+                new Connection{UserID=1, UserID2=2}
             };
 
-            context.Comment.AddRange(comments);
+            context.Connection.AddRange(connections);
             context.SaveChanges();
         }
     }
