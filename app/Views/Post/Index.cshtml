@@ -21,6 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Photo)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Timestamp)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -35,6 +38,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Photo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Timestamp)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PostID">Edit</a> |

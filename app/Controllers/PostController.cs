@@ -56,7 +56,7 @@ namespace D_real_social_app.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PostID,UserID,Text,Photo")] Post post)
+        public async Task<IActionResult> Create([Bind("PostID,UserID,Text,Photo,Timestamp")] Post post)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace D_real_social_app.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PostID,UserID,Text,Photo")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("PostID,UserID,Text,Photo,Timestamp")] Post post)
         {
             if (id != post.PostID)
             {
