@@ -1,0 +1,21 @@
+@model IEnumerable<D_real_social_app.Models.Feed>
+
+@{
+    ViewData["Title"] = "Feed";
+}
+
+<div class="createPost">
+<button>Create new post</button>
+</div>
+
+<h2>@ViewBag.User</h2>
+
+<div class="feed">
+@foreach (var item in Model) {
+    <p>@Html.DisplayFor(modelItem => item.Text)</p>
+    <p>@Html.DisplayFor(modelItem => item.PostPhoto)</p>
+    <p>@Html.DisplayFor(modelItem => item.UserPhoto)</p>
+    <br>
+    <br>
+}
+</div>

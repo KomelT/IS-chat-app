@@ -14,6 +14,7 @@ namespace D_real_social_app.Data
         public DbSet<Post> Post { get; set; }
         public DbSet<Comment> Comment { get; set; }
         public DbSet<Connection> Connection { get; set; }
+        public DbSet<Feed> Feed { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +23,7 @@ namespace D_real_social_app.Data
             modelBuilder.Entity<Post>().ToTable("Post");
             modelBuilder.Entity<Comment>().ToTable("Comment");
             modelBuilder.Entity<Connection>().ToTable("Connection");
+            modelBuilder.Entity<Feed>().HasNoKey();
         }
     }
 }
