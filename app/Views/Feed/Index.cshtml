@@ -4,17 +4,30 @@
     ViewData["Title"] = "Feed";
 }
 
-<div class="createPost">
-<button>Create new post</button>
-</div>
+<link rel="stylesheet" href="~/css/feed.css" asp-append-version="true" />
 
-<h2>@ViewBag.User</h2>
+<div class="createPost">
+</div>
 
 <div class="feed">
 @foreach (var item in Model) {
-    <p>@Html.DisplayFor(modelItem => item.Text)</p>
-    <p>@Html.DisplayFor(modelItem => item.PostPhoto)</p>
-    <p>@Html.DisplayFor(modelItem => item.UserPhoto)</p>
+    <div class="post">
+        <div class="postHeader">
+            <div class="userInfo">
+                <img src="https://www.hostpapa.com/knowledgebase/wp-content/uploads/2018/04/1-13.png ">
+                <p>@Html.DisplayFor(modelItem => item.UserName)</p>
+            </div>
+            <div class="postMeta">
+                <p>@Html.DisplayFor(modelItem => item.Timestamp)</p>
+            </div>
+        </div>
+        <div class="postText">
+            <p>@Html.DisplayFor(modelItem => item.Text)</p>
+        </div>
+        <div class="postPhoto">
+            <img src="@Html.DisplayFor(modelItem => item.PostPhoto)" >
+        </div>
+    </div>
     <br>
     <br>
 }

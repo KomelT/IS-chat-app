@@ -1,0 +1,50 @@
+.feed{
+    width: 600px;
+    margin: 0 auto;
+}
+
+.post{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.postHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.userInfo{
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.userInfo img{
+    height: 40px;
+    border-radius: 60px;
+}
+
+.userInfo p{
+    margin: 0 0 0 10px;
+}
+
+.postMeta p {
+    margin-top: 0;
+    font-size: 13px;
+    color: grey;
+}
+
+.postText{
+    margin-top: 20px;
+}
+
+.postPhoto {
+    margin: 0 auto;
+}
+
+.postPhoto img{
+    max-height: 500px;
+    max-width: 550px;
+}
