@@ -7,6 +7,11 @@
 <link rel="stylesheet" href="~/css/feed.css" asp-append-version="true" />
 
 <div class="createPost">
+    <form method="POST" action="/feed/uploadFile" enctype="multipart/form-data"> 
+        <textarea placeholder="What's happening?" name="text" id="text"></textarea>
+        <input type="file" name="file">
+        <input type="submit" value="Post" class="btn btn-primary" />
+    </form>
 </div>
 
 <div class="feed">
