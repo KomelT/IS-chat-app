@@ -7,11 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using D_real_social_app.Data;
 using D_real_social_app.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace D_real_social_app.Controllers
 {
-    [Authorize]
     public class PostController : Controller
     {
         private readonly SocialAppContext _context;
@@ -24,9 +22,9 @@ namespace D_real_social_app.Controllers
         // GET: Post
         public async Task<IActionResult> Index()
         {
-            return _context.Post != null ?
-                        View(await _context.Post.ToListAsync()) :
-                        Problem("Entity set 'SocialAppContext.Post'  is null.");
+              return _context.Post != null ? 
+                          View(await _context.Post.ToListAsync()) :
+                          Problem("Entity set 'SocialAppContext.Post'  is null.");
         }
 
         // GET: Post/Details/5
@@ -58,7 +56,7 @@ namespace D_real_social_app.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PostID,UserID,Text")] Post post)
+        public async Task<IActionResult> Create([Bind("PostID,UserID,Text,Photo,Timestamp")] Post post)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +88,7 @@ namespace D_real_social_app.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PostID,UserID,Text")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("PostID,UserID,Text,Photo,Timestamp")] Post post)
         {
             if (id != post.PostID)
             {
@@ -152,14 +150,14 @@ namespace D_real_social_app.Controllers
             {
                 _context.Post.Remove(post);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PostExists(int id)
         {
-            return (_context.Post?.Any(e => e.PostID == id)).GetValueOrDefault();
+          return (_context.Post?.Any(e => e.PostID == id)).GetValueOrDefault();
         }
     }
 }

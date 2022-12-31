@@ -1,0 +1,44 @@
+@model IEnumerable<D_real_social_app.Models.Feed>
+
+@{
+    ViewData["Title"] = "Feed";
+    string psErr = ViewContext.HttpContext.Request.Query["pserr"];
+}
+
+<link rel="stylesheet" href="~/css/feed.css" asp-append-version="true" />
+
+<div class="createPost">
+    <form method="POST" action="/feed/uploadFile" enctype="multipart/form-data"> 
+        <textarea placeholder="What's happening?" name="text" id="text"></textarea>
+        <div>
+            <input type="submit" value="Post" class="btn btn-primary" />
+            <label for="file-upload" class="custom-file-upload">Upload</label>
+            <input type="file" name="file" id="file-upload" accept="image/png, image/jpeg" />
+        </div>
+        @if(psErr != null){
+            <p id="psError" >@psErr</p>
+        }
+    </form>
+</div>
+
+<div class="feed">
+@foreach (var item in Model) {
+    <div class="post">
+        <div class="postHeader">
+            <div class="userInfo">
+                <img src="@Html.DisplayFor(modelItem => item.UserPhoto)">
+                <p>@Html.DisplayFor(modelItem => item.UserName)</p>
+            </div>
+            <div class="postMeta">
+                <p>@Html.DisplayFor(modelItem => item.Timestamp)</p>
+            </div>
+        </div>
+        <div class="postText">
+            <p>@Html.DisplayFor(modelItem => item.Text)</p>
+        </div>
+        <div class="postPhoto">
+            <img src="@Html.DisplayFor(modelItem => item.PostPhoto)" >
+        </div>
+    </div>
+}
+</div>
