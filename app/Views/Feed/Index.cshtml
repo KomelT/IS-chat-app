@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Feed";
+    string psErr = ViewContext.HttpContext.Request.Query["pserr"];
 }
 
 <link rel="stylesheet" href="~/css/feed.css" asp-append-version="true" />
@@ -9,8 +10,14 @@
 <div class="createPost">
     <form method="POST" action="/feed/uploadFile" enctype="multipart/form-data"> 
         <textarea placeholder="What's happening?" name="text" id="text"></textarea>
-        <input type="file" name="file">
-        <input type="submit" value="Post" class="btn btn-primary" />
+        <div>
+            <input type="submit" value="Post" class="btn btn-primary" />
+            <label for="file-upload" class="custom-file-upload">Upload</label>
+            <input type="file" name="file" id="file-upload" accept="image/png, image/jpeg" />
+        </div>
+        @if(psErr != null){
+            <p id="psError" >@psErr</p>
+        }
     </form>
 </div>
 
@@ -19,7 +26,7 @@
     <div class="post">
         <div class="postHeader">
             <div class="userInfo">
-                <img src="https://www.hostpapa.com/knowledgebase/wp-content/uploads/2018/04/1-13.png ">
+                <img src="@Html.DisplayFor(modelItem => item.UserPhoto)">
                 <p>@Html.DisplayFor(modelItem => item.UserName)</p>
             </div>
             <div class="postMeta">
@@ -33,7 +40,5 @@
             <img src="@Html.DisplayFor(modelItem => item.PostPhoto)" >
         </div>
     </div>
-    <br>
-    <br>
 }
 </div>

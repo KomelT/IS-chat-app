@@ -1,4 +1,71 @@
-.feed{
+.createPost{
+    background: #242526;
+    margin: 0 auto 20px auto;
+    border-radius: 15px;
+    padding: 20px;
+    max-width: 600px;
+}
+
+.createPost form{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.createPost textarea{
+    background: #525457;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    resize: none;
+    padding: 5px 10px 0 10px;
+    margin: 0 0 10px 0 ;
+    z-index: 2;
+}
+
+.createPost textarea:focus{
+    height: 100px;
+}
+
+.createPost textarea:focus{
+    height: 100px;
+}
+
+.createPost div {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.createPost input[type="submit"] {
+    width: 20%;
+}
+
+.createPost label {
+    color: rgb(65, 66, 68);
+    background: rgb(228, 230, 235);
+    border-radius: 3px;
+    padding-top: 5px;
+    width: 112px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.createPost input[type="file"] {
+    display: none;
+}
+
+#psError{
+    margin-top: 10px;
+    color: red;
+    background: rgb(218, 155, 155);
+    padding: 5px 10px 10px 10px;
+    border-radius: 5px;
+    width: 70%;
+}
+
+.feed {
     width: 600px;
     margin: 0 auto;
 }
@@ -6,7 +73,11 @@
 .post{
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    margin-bottom: 25px;
+    padding: 20px 20px 20px 20px;
+    background: #242526;
+    color: rgb(228, 230, 235);
+    border-radius: 15px;
 }
 
 .postHeader{
@@ -19,6 +90,7 @@
     display: flex;
     align-items: center;
     height: 40px;
+    font-weight: 500;
 }
 
 .userInfo img{
@@ -33,11 +105,11 @@
 .postMeta p {
     margin-top: 0;
     font-size: 13px;
-    color: grey;
+    color: rgb(172, 172, 172);
 }
 
 .postText{
-    margin-top: 20px;
+    margin: 20px 20px 10px 20px;
 }
 
 .postPhoto {
@@ -47,4 +119,5 @@
 .postPhoto img{
     max-height: 500px;
     max-width: 550px;
+    border-radius: 10px;
 }

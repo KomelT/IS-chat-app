@@ -15,4 +15,14 @@ html {
 
 body {
   margin-bottom: 60px;
+  background: #18191a;
+}
+
+.navbar{
+  background: rgb(17, 19, 20) !important;
+  border: rgb(17, 19, 20)  !important;
+}
+
+.navbar p, a, .nav-link{
+  color: rgb(228, 230, 235) !important;
 }
