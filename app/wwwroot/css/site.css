@@ -18,11 +18,17 @@ body {
   background: #18191a;
 }
 
-.navbar{
+.navbar {
   background: rgb(17, 19, 20) !important;
-  border: rgb(17, 19, 20)  !important;
+  border: rgb(17, 19, 20) !important;
 }
 
-.navbar p, a, .nav-link{
+.navbar p,
+a,
+.nav-link {
   color: rgb(228, 230, 235) !important;
+}
+
+.container {
+  min-height: calc(100vh - 156px);
 }

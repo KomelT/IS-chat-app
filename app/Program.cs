@@ -2,11 +2,14 @@ using D_real_social_app.Data;
 using D_real_social_app.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Google;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("SocialAppContext");
+var config = builder.Configuration;
 
 builder.Services.AddDbContext<SocialAppContext>(options =>
     options.UseSqlServer(connectionString));
@@ -17,6 +20,15 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<SocialAppContext>();
+
+builder.Services.AddAuthentication()
+   .AddGoogle(options =>
+   {
+       IConfigurationSection googleAuthNSection =
+       config.GetSection("Authentication:Google");
+       options.ClientId = googleAuthNSection["ClientId"];
+       options.ClientSecret = googleAuthNSection["ClientSecret"];
+   });
 
 var app = builder.Build();
 
