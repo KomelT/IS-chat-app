@@ -1,0 +1,20 @@
+h1,
+h2,
+h3,
+h4,
+td {
+  color: rgb(228, 230, 235) !important;
+}
+
+input {
+  margin: 5px 0 10px 0;
+}
+
+.btn-primary {
+  background: #ff8d36;
+  border: #ff8d36;
+}
+
+.nav-link.active {
+  background: #ff8d36 !important;
+}
