@@ -141,7 +141,7 @@ namespace D_real_social_app.Areas.Identity.Pages.Account
 
                     var userId = await _userManager.GetUserIdAsync(user);
 
-                    var sql = "UPDATE [User] SET FirstName = '" + Input.FirstName + "', LastName = '" + Input.LastName + "' WHERE Id = '" + userId + "'";
+                    var sql = "UPDATE [User] SET FirstName = '" + Input.FirstName + "', LastName = '" + Input.LastName + "', Photo = 'https://ui-avatars.com/api/?name=" + Input.FirstName + "+" + Input.LastName + "&background=random' WHERE Id = '" + userId + "'";
                     _context.Database.ExecuteSqlRaw(sql);
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
