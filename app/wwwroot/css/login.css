@@ -30,6 +30,15 @@ input,
   text-align: center;
 }
 
+.first-last-name {
+  display: flex;
+  justify-content: space-between;
+}
+
+.first-last-name > * {
+  width: calc(50% - 5px);
+}
+
 .g-signin2 {
   margin-top: 10px;
   margin-bottom: 15px;
