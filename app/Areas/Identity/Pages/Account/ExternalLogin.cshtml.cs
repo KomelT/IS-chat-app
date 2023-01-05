@@ -18,6 +18,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using D_real_social_app.Data;
+using D_real_social_app.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace D_real_social_app.Areas.Identity.Pages.Account
 {
@@ -30,13 +33,15 @@ namespace D_real_social_app.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<User> _emailStore;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
+        private readonly SocialAppContext _context;
 
         public ExternalLoginModel(
             SignInManager<User> signInManager,
             UserManager<User> userManager,
             IUserStore<User> userStore,
             ILogger<ExternalLoginModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            SocialAppContext context)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -44,6 +49,7 @@ namespace D_real_social_app.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         /// <summary>
@@ -85,8 +91,18 @@ namespace D_real_social_app.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
         }
-        
+
         public IActionResult OnGet() => RedirectToPage("./Login");
 
         public IActionResult OnPost(string provider, string returnUrl = null)
@@ -112,6 +128,15 @@ namespace D_real_social_app.Areas.Identity.Pages.Account
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
+            Console.WriteLine("--------------------------------------------");
+            Console.WriteLine(info.Principal);
+            Console.WriteLine(info.Principal.Identity);
+            Console.WriteLine(info.Principal.Identity.Name);
+
+
+            Console.WriteLine("--------------------------------------------");
+
+
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
@@ -128,10 +153,20 @@ namespace D_real_social_app.Areas.Identity.Pages.Account
                 // If the user does not have an account, then ask the user to create an account.
                 ReturnUrl = returnUrl;
                 ProviderDisplayName = info.ProviderDisplayName;
+
+                var names = info.Principal.FindFirstValue(ClaimTypes.Name).Split(" ");
+                var lastName = "";
+                for (int i = 1; i < names.Length; i++)
+                {
+                    lastName += names[i] + " ";
+                }
+                lastName = lastName.Remove(lastName.Length - 1, 1);
                 if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
                 {
                     Input = new InputModel
                     {
+                        FirstName = names[0],
+                        LastName = lastName,
                         Email = info.Principal.FindFirstValue(ClaimTypes.Email)
                     };
                 }
@@ -166,6 +201,14 @@ namespace D_real_social_app.Areas.Identity.Pages.Account
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
                         var userId = await _userManager.GetUserIdAsync(user);
+
+                        try
+                        {
+                            var sql = "UPDATE [User] SET FirstName = '" + Input.FirstName + "', LastName = '" + Input.LastName + "', Photo = 'https://ui-avatars.com/api/?name=" + Input.FirstName + "+" + Input.LastName + "&background=random' WHERE Id = '" + userId + "'";
+                            _context.Database.ExecuteSqlRaw(sql);
+                        }
+                        catch (Exception e) { }
+
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                         var callbackUrl = Url.Page(

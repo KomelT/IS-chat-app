@@ -18,11 +18,38 @@ body {
   background: #18191a;
 }
 
-.navbar{
+.navbar {
   background: rgb(17, 19, 20) !important;
-  border: rgb(17, 19, 20)  !important;
+  border: rgb(17, 19, 20) !important;
 }
 
-.navbar p, a, .nav-link{
+.form-label {
+  color: rgb(33, 37, 41);
+}
+
+.navbar p,
+a,
+h1,
+h2,
+h3,
+h4,
+p,
+th,
+td,
+dt,
+dd,
+.form-label-white {
+  color: rgb(228, 230, 235);
+}
+
+input {
+  margin-bottom: 10px;
+}
+
+.nav-link {
   color: rgb(228, 230, 235) !important;
+}
+
+.container {
+  min-height: calc(100vh - 156px);
 }

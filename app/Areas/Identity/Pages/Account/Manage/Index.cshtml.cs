@@ -10,6 +10,9 @@ using D_real_social_app.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using D_real_social_app.Data;
+using D_real_social_app.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace D_real_social_app.Areas.Identity.Pages.Account.Manage
 {
@@ -17,13 +20,18 @@ namespace D_real_social_app.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly SocialAppContext _context;
+        public string UPhoto { get; set; }
+
 
         public IndexModel(
             UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager,
+            SocialAppContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         /// <summary>
@@ -59,18 +67,46 @@ namespace D_real_social_app.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [DataType(DataType.Upload)]
+            [Display(Name = "Photo")]
+            public IFormFile Photo { get; set; }
         }
 
         private async Task LoadAsync(User user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var userId = await _userManager.GetUserIdAsync(user);
+
+            var firstName = "";
+            var lastName = "";
+
+            try
+            {
+                var sqlRes = await _context.User.FromSqlRaw("SELECT * FROM [User] WHERE Id = '" + userId + "'").ToListAsync();
+                firstName = sqlRes[0].FirstName;
+                lastName = sqlRes[0].LastName;
+                UPhoto = sqlRes[0].Photo;
+            }
+            catch (Exception e)
+            { }
 
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                FirstName = firstName,
+                LastName = lastName,
+                PhoneNumber = phoneNumber,
             };
         }
 
@@ -109,6 +145,63 @@ namespace D_real_social_app.Areas.Identity.Pages.Account.Manage
                     StatusMessage = "Unexpected error when trying to set phone number.";
                     return RedirectToPage();
                 }
+            }
+
+            var userId = await _userManager.GetUserIdAsync(user);
+            var firstName = "";
+            var lastName = "";
+
+            try
+            {
+                var sqlRes = await _context.User.FromSqlRaw("SELECT * FROM [User] WHERE Id = '" + userId + "'").ToListAsync();
+                firstName = sqlRes[0].FirstName;
+                lastName = sqlRes[0].LastName;
+            }
+            catch (Exception e)
+            {
+                StatusMessage = "Unexpected error when trying to save your data.";
+                return RedirectToPage();
+            }
+
+            var fileName = "";
+            if (Input.Photo != null)
+            {
+                var end = Input.Photo.FileName.Split(".")[Input.Photo.FileName.Split(".").Length - 1];
+
+                var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                var stringChars = new char[32];
+                var random = new Random();
+
+                for (int i = 0; i < stringChars.Length; i++)
+                {
+                    stringChars[i] = chars[random.Next(chars.Length)];
+                }
+
+                var finalString = new String(stringChars);
+
+                fileName = "/img/uploads/" + finalString + "." + end;
+                using (Stream fileStream = new FileStream("/app/wwwroot" + fileName, FileMode.Create))
+                {
+                    await Input.Photo.CopyToAsync(fileStream);
+                }
+            }
+
+            if (Input.FirstName != firstName)
+            {
+                var sql = "UPDATE [User] SET FirstName = '" + Input.FirstName + "' WHERE Id = '" + userId + "'";
+                _context.Database.ExecuteSqlRaw(sql);
+            }
+
+            if (Input.LastName != lastName)
+            {
+                var sql = "UPDATE [User] SET LastName = '" + Input.LastName + "' WHERE Id = '" + userId + "'";
+                _context.Database.ExecuteSqlRaw(sql);
+            }
+
+            if (fileName != "")
+            {
+                var sql = "UPDATE [User] SET Photo = '" + fileName + "' WHERE Id = '" + userId + "'";
+                _context.Database.ExecuteSqlRaw(sql);
             }
 
             await _signInManager.RefreshSignInAsync(user);
