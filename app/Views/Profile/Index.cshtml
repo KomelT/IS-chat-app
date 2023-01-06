@@ -1,1 +1,41 @@
-<h1>neki neki profil</h1>
+@model IEnumerable<D_real_social_app.Models.Feed>
+
+@{
+    ViewData["Title"] = "Profile - Ime in priimek";
+}
+
+<link rel="stylesheet" href="~/css/feed.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+
+<div class="profile">
+    <div class="profileSidebar">
+        <img src='@ViewData["userPhoto"]' class="userPhoto"/>
+        <p class="userName">@ViewData["userName"]</p>
+        <form method="POST" action="/profile/addConnection">
+            <input type="hidden" value='ViewData["userId"]' />
+            <input type="submit" class="btn btn-primary" value="Add Connection"/>
+        </form>
+    </div>
+    <div class="feed" >
+        @foreach (var item in Model) {
+            <div class="post">
+                <div class="postHeader">
+                    <div class="userInfo">
+                        <img src="@Html.DisplayFor(modelItem => item.UserPhoto)">
+                        <p>@Html.DisplayFor(modelItem => item.UserName)</p>
+                    </div>
+                    <div class="postMeta">
+                        <p>@Html.DisplayFor(modelItem => item.Timestamp)</p>
+                    </div>
+                </div>
+                <div class="postText">
+                    <p>@Html.DisplayFor(modelItem => item.Text)</p>
+                </div>
+                <div class="postPhoto">
+                    <img src="@Html.DisplayFor(modelItem => item.PostPhoto)" >
+                </div>
+            </div>
+        }
+    </div>
+    
+</div>

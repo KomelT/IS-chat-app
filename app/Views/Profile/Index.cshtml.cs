@@ -23,9 +23,24 @@ public class Profile : Controller
         _context = context;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string id)
     {
 
-        return View();
+        ViewData["userId"] = id; 
+
+        var claimsIdentity = (ClaimsIdentity)User.Identity;
+        var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+    
+
+        var sql = "SELECT [Post].PostID AS PostID, [Post].Text AS Text, [Post].Photo AS PostPhoto, [Post].Timestamp as Timestamp, [User].Photo AS UserPhoto, CONCAT([User].FirstName, ' ', [User].LastName) AS UserName FROM [Post] INNER JOIN [User] ON [Post].UserID = [User].Id WHERE id = '"+id+"'";
+        var posts = await _context.Feed.FromSqlRaw(sql).ToListAsync();
+
+        sql = "SELECT * FROM [USER] WHERE Id ='"+id+"'";
+        var sqlRes = await _context.User.FromSqlRaw(sql).ToListAsync();
+
+        ViewData["userName"] = sqlRes[0].FirstName + " " + sqlRes[0].LastName;
+        ViewData["userPhoto"] =sqlRes[0].Photo;
+
+        return View(posts);
     }
 }
