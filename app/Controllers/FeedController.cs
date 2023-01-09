@@ -30,7 +30,7 @@ public class FeedController : Controller
 
         //ViewBag.User = userId;
 
-        var sql = "SELECT [Post].Text AS Text, [Post].Photo AS PostPhoto, [Post].Timestamp as Timestamp, [User].Photo AS UserPhoto, CONCAT([User].FirstName, ' ', [User].LastName) AS UserName FROM [Post] INNER JOIN [User] ON ([Post].UserID = [User].id) WHERE [Post].UserID = ANY ( SELECT UserID FROM Connection WHERE UserID = '" + userId + "' OR UserID2 = '" + userId + "' UNION SELECT UserID2 FROM Connection WHERE UserID = '" + userId + "' OR UserID2 = '" + userId + "' UNION SELECT '" + userId + "' FROM Connection UNION SELECT CONCAT('" + userId + "', '') AS UserId ) ORDER BY [Post].Timestamp DESC";
+        var sql = "SELECT [Post].UserId as UserId, [Post].Text AS Text, [Post].Photo AS PostPhoto, [Post].Timestamp as Timestamp, [User].Photo AS UserPhoto, CONCAT([User].FirstName, ' ', [User].LastName) AS UserName FROM [Post] INNER JOIN [User] ON ([Post].UserID = [User].id) WHERE [Post].UserID = ANY ( SELECT UserID FROM Connection WHERE UserID = '" + userId + "' OR UserID2 = '" + userId + "' UNION SELECT UserID2 FROM Connection WHERE UserID = '" + userId + "' OR UserID2 = '" + userId + "' UNION SELECT '" + userId + "' FROM Connection UNION SELECT CONCAT('" + userId + "', '') AS UserId ) ORDER BY [Post].Timestamp DESC";
         var posts = await _context.Feed.FromSqlRaw(sql).ToListAsync();
 
         return View(posts);

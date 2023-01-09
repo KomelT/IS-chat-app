@@ -1,7 +1,7 @@
 @model IEnumerable<D_real_social_app.Models.Feed>
 
 @{
-    ViewData["Title"] = "Profile - Ime in priimek";
+    ViewData["Title"] = "Profile - " + @ViewData["userName"];
 }
 
 <link rel="stylesheet" href="~/css/feed.css" asp-append-version="true" />
@@ -11,10 +11,21 @@
     <div class="profileSidebar">
         <img src='@ViewData["userPhoto"]' class="userPhoto"/>
         <p class="userName">@ViewData["userName"]</p>
-        <form method="POST" action="/profile/addConnection">
-            <input type="hidden" value='ViewData["userId"]' />
-            <input type="submit" class="btn btn-primary" value="Add Connection"/>
-        </form>
+        @if(!(ViewData["userId"].Equals(ViewData["myId"]))){
+           @if(ViewData["isConnected"].Equals(0)){
+                <form method="POST" action="/profile/toggleConnection">
+                    <input name="id" type="hidden" value='@ViewData["userId"]' />
+                    <input type="submit" class="btn btn-primary" value="Add Connection"/>
+                </form>
+           }else{
+                <form method="POST" action="/profile/toggleConnection">
+                    <input name="id" type="hidden" value='@ViewData["userId"]' />
+                    <input type="submit" class="btn btn-primary" value="Remove Connection"/>
+                </form>
+            }
+
+        }
+
     </div>
     <div class="feed" >
         @foreach (var item in Model) {
