@@ -3,9 +3,11 @@
 @{
     ViewData["Title"] = "Feed";
     string psErr = ViewContext.HttpContext.Request.Query["pserr"];
+    string comErr = "";
 }
 
 <link rel="stylesheet" href="~/css/feed.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/comments.css" asp-append-version="true" />
 
 <div class="createPost">
     <form method="POST" action="/feed/uploadFile" enctype="multipart/form-data"> 
@@ -38,6 +40,24 @@
         </div>
         <div class="postPhoto">
             <img src="@Html.DisplayFor(modelItem => item.PostPhoto)" >
+        </div>
+        <hr>
+        <div class="commentSection">
+            <form method="POST" action="/feed/uploadComment" enctype="multipart/form-data">
+                <img src='@ViewData["UserPhoto"]' /> 
+                <input type="hidden" name="postId" value="@Html.DisplayFor(modelItem => item.PostID)" />
+                <textarea placeholder="Writte a comment." name="text" id="text" required></textarea>
+                <input type="submit" value="Post" class="btn btn-primary" />
+            </form>
+            <div class="comments">
+                @foreach (var com in item.Comments) {
+                    <div class="comment">
+                        <img src="@com.UserPhoto" />
+                        <p class="userName">@com.UserName: </p>
+                        <p>@com.Text</p>
+                    </div>
+                }
+            </div>
         </div>
     </div>
 }
