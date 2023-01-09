@@ -29,7 +29,7 @@
         <div class="postHeader">
             <div class="userInfo">
                 <img src="@Html.DisplayFor(modelItem => item.UserPhoto)">
-                <p>@Html.DisplayFor(modelItem => item.UserName)</p>
+                <a href="/profile/?id=@Html.DisplayFor(modelItem => item.UserId)" >@Html.DisplayFor(modelItem => item.UserName)</a>
             </div>
             <div class="postMeta">
                 <p>@Html.DisplayFor(modelItem => item.Timestamp)</p>

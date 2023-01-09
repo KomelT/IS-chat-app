@@ -32,11 +32,10 @@ public class FeedController : Controller
         var sql = "SELECT * FROM [User] WHERE Id = '" + userId + "'";
         var sqlRes = await _context.User.FromSqlRaw(sql).ToListAsync();
 
-
         ViewData["UserName"] = sqlRes[0].FirstName + " " + sqlRes[0].LastName;
         ViewData["UserPhoto"] = sqlRes[0].Photo;
 
-        sql = "SELECT [Post].PostID AS PostID, [Post].Text AS Text, [Post].Photo AS PostPhoto, [Post].Timestamp as Timestamp, [User].Photo AS UserPhoto, CONCAT([User].FirstName, ' ', [User].LastName) AS UserName FROM [Post] INNER JOIN [User] ON ([Post].UserID = [User].id) WHERE [Post].UserID = ANY ( SELECT UserID FROM Connection WHERE UserID = '" + userId + "' OR UserID2 = '" + userId + "' UNION SELECT UserID2 FROM Connection WHERE UserID = '" + userId + "' OR UserID2 = '" + userId + "' UNION SELECT '" + userId + "' FROM Connection UNION SELECT CONCAT('" + userId + "', '') AS UserId ) ORDER BY [Post].Timestamp DESC";
+        sql = "SELECT [Post].UserId as UserId, [Post].PostID AS PostID, [Post].Text AS Text, [Post].Photo AS PostPhoto, [Post].Timestamp as Timestamp, [User].Photo AS UserPhoto, CONCAT([User].FirstName, ' ', [User].LastName) AS UserName FROM [Post] INNER JOIN [User] ON ([Post].UserID = [User].id) WHERE [Post].UserID = ANY ( SELECT UserID FROM Connection WHERE UserID = '" + userId + "' OR UserID2 = '" + userId + "' UNION SELECT UserID2 FROM Connection WHERE UserID = '" + userId + "' OR UserID2 = '" + userId + "' UNION SELECT '" + userId + "' FROM Connection UNION SELECT CONCAT('" + userId + "', '') AS UserId ) ORDER BY [Post].Timestamp DESC";
         var posts = await _context.Feed.FromSqlRaw(sql).ToListAsync();
 
         foreach (Feed post in posts)
@@ -48,7 +47,6 @@ public class FeedController : Controller
 
         return View(posts);
     }
-
     // 
 
     public async Task<IActionResult> uploadFile([FromForm] IFormFile file, String text)
