@@ -6,6 +6,8 @@ public class Comment
 {
     public int CommentID { get; set; }
     public string? UserID { get; set; }
+    public string? UserPhoto { get; set; }
+    public string? UserName { get; set; }
     public int PostID { get; set; }
     public string? Text { get; set; }
 }

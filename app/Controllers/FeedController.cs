@@ -9,6 +9,7 @@ using D_real_social_app.Data;
 using D_real_social_app.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Data.SqlClient;
 
 namespace D_real_social_app.Controllers;
 
@@ -28,10 +29,22 @@ public class FeedController : Controller
         var claimsIdentity = (ClaimsIdentity)User.Identity;
         var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-        //ViewBag.User = userId;
+        var sql = "SELECT * FROM [User] WHERE Id = '" + userId + "'";
+        var sqlRes = await _context.User.FromSqlRaw(sql).ToListAsync();
 
-        var sql = "SELECT [Post].Text AS Text, [Post].Photo AS PostPhoto, [Post].Timestamp as Timestamp, [User].Photo AS UserPhoto, CONCAT([User].FirstName, ' ', [User].LastName) AS UserName FROM [Post] INNER JOIN [User] ON ([Post].UserID = [User].id) WHERE [Post].UserID = ANY ( SELECT UserID FROM Connection WHERE UserID = '" + userId + "' OR UserID2 = '" + userId + "' UNION SELECT UserID2 FROM Connection WHERE UserID = '" + userId + "' OR UserID2 = '" + userId + "' UNION SELECT '" + userId + "' FROM Connection UNION SELECT CONCAT('" + userId + "', '') AS UserId ) ORDER BY [Post].Timestamp DESC";
+
+        ViewData["UserName"] = sqlRes[0].FirstName + " " + sqlRes[0].LastName;
+        ViewData["UserPhoto"] = sqlRes[0].Photo;
+
+        sql = "SELECT [Post].PostID AS PostID, [Post].Text AS Text, [Post].Photo AS PostPhoto, [Post].Timestamp as Timestamp, [User].Photo AS UserPhoto, CONCAT([User].FirstName, ' ', [User].LastName) AS UserName FROM [Post] INNER JOIN [User] ON ([Post].UserID = [User].id) WHERE [Post].UserID = ANY ( SELECT UserID FROM Connection WHERE UserID = '" + userId + "' OR UserID2 = '" + userId + "' UNION SELECT UserID2 FROM Connection WHERE UserID = '" + userId + "' OR UserID2 = '" + userId + "' UNION SELECT '" + userId + "' FROM Connection UNION SELECT CONCAT('" + userId + "', '') AS UserId ) ORDER BY [Post].Timestamp DESC";
         var posts = await _context.Feed.FromSqlRaw(sql).ToListAsync();
+
+        foreach (Feed post in posts)
+        {
+            sql = "SELECT Comment.CommentID AS CommentID, Comment.PostID as PostID, Comment.UserID as UserID, [User].Photo as UserPhoto, CONCAT([User].FirstName, ' ', [User].LastName) AS UserName, Comment.Text AS Text FROM Comment INNER JOIN [User] ON [User].Id = Comment.UserId WHERE PostID = '" + post.PostID + "' ";
+            var sqlRes1 = await _context.Comment.FromSqlRaw(sql).ToListAsync();
+            post.Comments = sqlRes1;
+        }
 
         return View(posts);
     }
@@ -82,5 +95,19 @@ public class FeedController : Controller
 
     }
 
+    public async Task<IActionResult> uploadComment([FromForm] String text, int postId)
+    {
+        if (text == null || postId == null)
+        {
+            return Redirect("/feed?pserr=Text%20is%20mandatory%20to%20post%20a%20comment%21");
+        }
+
+        var claimsIdentity = (ClaimsIdentity)User.Identity;
+        var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+        var sql = "INSERT INTO [Comment] (UserID, Text, PostID) VALUES ('" + userId + "', '" + text + "', '" + postId + "')";
+        _context.Database.ExecuteSqlRaw(sql);
+        return Redirect("/feed");
+    }
 
 }
