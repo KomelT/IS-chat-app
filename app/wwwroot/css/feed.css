@@ -38,6 +38,8 @@
 
 .createPost input[type="submit"] {
   width: 20%;
+  background: #ff8d36;
+  border: #ff8d36;
 }
 
 .createPost label {
@@ -97,8 +99,10 @@
   border-radius: 60px;
 }
 
-.userInfo p {
+.userInfo a,
+p {
   margin: 0 0 0 10px;
+  text-decoration: none;
 }
 
 .postMeta p {

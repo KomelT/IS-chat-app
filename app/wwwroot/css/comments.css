@@ -23,6 +23,7 @@
 
 .commentSection form input[type="submit"] {
   width: 60px;
+  background: #ff8d36;
 }
 
 .comment {
