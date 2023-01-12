@@ -7,5 +7,5 @@ RUN dotnet publish -o /publish
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 as base
 COPY --from=build  /publish /app
 WORKDIR /app
-EXPOSE 80
+EXPOSE 3000
 CMD ["./D-real-social-app"]
