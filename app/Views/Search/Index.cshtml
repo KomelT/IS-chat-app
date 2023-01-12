@@ -1,0 +1,20 @@
+@model IEnumerable<D_real_social_app.Models.User>
+
+@{
+    ViewData["Title"] = "Profile - " + @ViewData["userName"];
+}
+
+<link rel="stylesheet" href="~/css/search.css" asp-append-version="true" />
+
+<div class="search">
+    @if(ViewData["Empty"].ToString().Equals("False")){
+        @foreach (var item in Model) {
+            <div class="user">
+                <img src="@Html.DisplayFor(modelItem => item.Photo)" />
+                <a href="/profile?id=@Html.DisplayFor(modelItem => item.Id)">@Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)</a>
+            </div>
+        }
+    }else {
+        <h1 class="noUserErr">No was user found!</h1>
+    }
+</div>

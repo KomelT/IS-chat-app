@@ -2,3 +2,34 @@
   height: 40px;
   margin-left: 20px;
 }
+
+.search-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-form input {
+  margin: none !important;
+}
+
+.search-form input[type="text"] {
+  margin: none;
+  background: #525457;
+  height: 40px;
+  border: none;
+  border-radius: 40px;
+  padding-left: 10px;
+}
+
+.search-form input[type="submit"] {
+  margin-left: 10px;
+  background: #ff8d36;
+  border: none;
+}
+
+.search {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
