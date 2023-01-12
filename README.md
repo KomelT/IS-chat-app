@@ -43,15 +43,23 @@ If we click on our email in the upper right corner, our account settings will ap
 Glavne table v bazi so Post, Feed, Connection, Comment.
 
 Post:
-  tabela hrani objavo(text ali photo), userja, ki je objavil in timestamp objave.
+tabela hrani objavo(text ali photo), userja, ki je objavil in timestamp objave.
 Feed:
-  hrani objave, userja, ki objavi in timestamp objave.
+hrani objave, userja, ki objavi in timestamp objave.
 Connection:
-  povezuje dva userja med sabo, da lahko vidita objave en drugega.
+povezuje dva userja med sabo, da lahko vidita objave en drugega.
 Comment:
-  vsebuje userja, post na katerega pišemo comment in vsebino commentarja
+vsebuje userja, post na katerega pišemo comment in vsebino commentarja
 User:
-  vsebuje klasične podatne o userju(id, ime...), email, hash passworda + dodatne stari za autetikacijo
+vsebuje klasične podatne o userju(id, ime...), email, hash passworda + dodatne stari za autetikacijo
+
+## Screenshots
+
+![Screenshot](https://raw.githubusercontent.com/KomelT/D-real-social-app/main/images/image.png)
+![Screenshot](https://raw.githubusercontent.com/KomelT/D-real-social-app/main/images/image1.png)
+![Screenshot](https://raw.githubusercontent.com/KomelT/D-real-social-app/main/images/image2.png)
+![Screenshot](https://raw.githubusercontent.com/KomelT/D-real-social-app/main/images/image3.png)
+![Screenshot](https://raw.githubusercontent.com/KomelT/D-real-social-app/main/images/image4.png)
 
 ## Authors:
 
