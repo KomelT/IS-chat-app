@@ -35,7 +35,7 @@ public class Profile : Controller
         ViewData["myId"] = userId;
 
 
-        var sql = "SELECT [Post].UserId as UserId, [Post].PostID AS PostID, [Post].Text AS Text, [Post].Photo AS PostPhoto, [Post].Timestamp as Timestamp, [User].Photo AS UserPhoto, CONCAT([User].FirstName, ' ', [User].LastName) AS UserName FROM [Post] INNER JOIN [User] ON ([Post].UserID = [User].id) WHERE [Post].UserID = ANY ( SELECT UserID FROM Connection WHERE UserID = '" + userId + "' OR UserID2 = '" + userId + "' UNION SELECT UserID2 FROM Connection WHERE UserID = '" + userId + "' OR UserID2 = '" + userId + "' UNION SELECT '" + userId + "' FROM Connection UNION SELECT CONCAT('" + userId + "', '') AS UserId ) ORDER BY [Post].Timestamp DESC";
+        var sql = "SELECT [Post].UserId as UserId, [Post].PostID AS PostID, [Post].Text AS Text, [Post].Photo AS PostPhoto, [Post].Timestamp as Timestamp, [User].Photo AS UserPhoto, CONCAT([User].FirstName, ' ', [User].LastName) AS UserName FROM [Post] INNER JOIN [User] ON ([Post].UserID = [User].id) WHERE [Post].UserID = '" + id + "' ORDER BY [Post].Timestamp DESC";
         var posts = await _context.Feed.FromSqlRaw(sql).ToListAsync();
 
         foreach (Feed post in posts)
@@ -45,8 +45,11 @@ public class Profile : Controller
             post.Comments = sqlRes1;
         }
 
-        sql = "SELECT * FROM [USER] WHERE Id ='" + id + "'";
+        sql = "SELECT * FROM [USER] WHERE Id ='" + userId + "'";
         var sqlRes = await _context.User.FromSqlRaw(sql).ToListAsync();
+
+        sql = "SELECT * FROM [USER] WHERE Id ='" + id + "'";
+        var sqlResa = await _context.User.FromSqlRaw(sql).ToListAsync();
 
         sql = "SELECT * FROM Connection WHERE (UserId = '" + id + "' AND UserId2 = '" + userId + "') OR (UserId = '" + userId + "' AND UserId2 = '" + id + "')";
         var connection = await _context.Connection.FromSqlRaw(sql).ToListAsync();
@@ -55,6 +58,8 @@ public class Profile : Controller
 
         ViewData["userName"] = sqlRes[0].FirstName + " " + sqlRes[0].LastName;
         ViewData["userPhoto"] = sqlRes[0].Photo;
+
+        ViewData["userPhoto1"] = sqlResa[0].Photo;
 
         return View(posts);
     }

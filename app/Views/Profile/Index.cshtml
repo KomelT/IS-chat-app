@@ -10,7 +10,7 @@
 
 <div class="profile">
     <div class="profileSidebar">
-        <img src='@ViewData["userPhoto"]' class="userPhoto"/>
+        <img src='@ViewData["userPhoto1"]' class="userPhoto"/>
         <p class="userName">@ViewData["userName"]</p>
         @if(!(ViewData["userId"].Equals(ViewData["myId"]))){
            @if(ViewData["isConnected"].Equals(0)){
@@ -29,6 +29,7 @@
 
     </div>
     <div class="feed" >
+        <h3>Users posts:</h3>
         @foreach (var item in Model) {
             <div class="post">
                 <div class="postHeader">
