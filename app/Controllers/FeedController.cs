@@ -76,8 +76,8 @@ public class FeedController : Controller
 
             var finalString = new String(stringChars);
 
-            fileName = "/img/" + finalString + "." + end;
-            using (Stream fileStream = new FileStream("/app/wwwroot/uploads" + fileName, FileMode.Create))
+            fileName = "/img/uploads/" + finalString + "." + end;
+            using (Stream fileStream = new FileStream("/app/wwwroot" + fileName, FileMode.Create))
             {
                 await file.CopyToAsync(fileStream);
             }
