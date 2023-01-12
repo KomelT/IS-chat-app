@@ -8,65 +8,69 @@
 <link rel="stylesheet" href="~/css/comments.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
 
-<div class="profile">
-    <div class="profileSidebar">
-        <img src='@ViewData["userPhoto1"]' class="userPhoto"/>
-        <p class="userName">@ViewData["userName"]</p>
-        @if(!(ViewData["userId"].Equals(ViewData["myId"]))){
-           @if(ViewData["isConnected"].Equals(0)){
-                <form method="POST" action="/profile/toggleConnection">
-                    <input name="id" type="hidden" value='@ViewData["userId"]' />
-                    <input type="submit" class="btn btn-primary" value="Add Connection"/>
-                </form>
-           }else{
-                <form method="POST" action="/profile/toggleConnection">
-                    <input name="id" type="hidden" value='@ViewData["userId"]' />
-                    <input type="submit" class="btn btn-primary" value="Remove Connection"/>
-                </form>
+@if(Model != null){
+    <div class="profile">
+        <div class="profileSidebar">
+            <img src='@ViewData["userPhoto1"]' class="userPhoto"/>
+            <p class="userName">@ViewData["userName"]</p>
+            @if(!(ViewData["userId"].Equals(ViewData["myId"]))){
+            @if(ViewData["isConnected"].Equals(0)){
+                    <form method="POST" action="/profile/toggleConnection">
+                        <input name="id" type="hidden" value='@ViewData["userId"]' />
+                        <input type="submit" class="btn btn-primary" value="Add Connection"/>
+                    </form>
+            }else{
+                    <form method="POST" action="/profile/toggleConnection">
+                        <input name="id" type="hidden" value='@ViewData["userId"]' />
+                        <input type="submit" class="btn btn-primary" value="Remove Connection"/>
+                    </form>
+                }
+
             }
 
-        }
-
+        </div>
+        <div class="feed" >
+            <h3>Users posts:</h3>
+            @foreach (var item in Model) {
+                <div class="post">
+                    <div class="postHeader">
+                        <div class="userInfo">
+                            <img src="@Html.DisplayFor(modelItem => item.UserPhoto)">
+                            <p>@Html.DisplayFor(modelItem => item.UserName)</p>
+                        </div>
+                        <div class="postMeta">
+                            <p>@Html.DisplayFor(modelItem => item.Timestamp)</p>
+                        </div>
+                    </div>
+                    <div class="postText">
+                        <p>@Html.DisplayFor(modelItem => item.Text)</p>
+                    </div>
+                    <div class="postPhoto">
+                        <img src="@Html.DisplayFor(modelItem => item.PostPhoto)" >
+                    </div>
+                    <hr>
+                    <div class="commentSection">
+                        <form method="POST" action="/feed/uploadComment" enctype="multipart/form-data">
+                            <img src='@ViewData["UserPhoto"]' /> 
+                            <input type="hidden" name="postId" value="@Html.DisplayFor(modelItem => item.PostID)" />
+                            <textarea placeholder="Writte a comment." name="text" id="text" required></textarea>
+                            <input type="submit" value="Post" class="btn btn-primary" />
+                        </form>
+                        <div class="comments">
+                            @foreach (var com in item.Comments) {
+                                <div class="comment">
+                                    <img src="@com.UserPhoto" />
+                                    <p class="userName">@com.UserName: </p>
+                                    <p>@com.Text</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        
     </div>
-    <div class="feed" >
-        <h3>Users posts:</h3>
-        @foreach (var item in Model) {
-            <div class="post">
-                <div class="postHeader">
-                    <div class="userInfo">
-                        <img src="@Html.DisplayFor(modelItem => item.UserPhoto)">
-                        <p>@Html.DisplayFor(modelItem => item.UserName)</p>
-                    </div>
-                    <div class="postMeta">
-                        <p>@Html.DisplayFor(modelItem => item.Timestamp)</p>
-                    </div>
-                </div>
-                <div class="postText">
-                    <p>@Html.DisplayFor(modelItem => item.Text)</p>
-                </div>
-                <div class="postPhoto">
-                    <img src="@Html.DisplayFor(modelItem => item.PostPhoto)" >
-                </div>
-                <hr>
-                <div class="commentSection">
-                    <form method="POST" action="/feed/uploadComment" enctype="multipart/form-data">
-                        <img src='@ViewData["UserPhoto"]' /> 
-                        <input type="hidden" name="postId" value="@Html.DisplayFor(modelItem => item.PostID)" />
-                        <textarea placeholder="Writte a comment." name="text" id="text" required></textarea>
-                        <input type="submit" value="Post" class="btn btn-primary" />
-                    </form>
-                    <div class="comments">
-                        @foreach (var com in item.Comments) {
-                            <div class="comment">
-                                <img src="@com.UserPhoto" />
-                                <p class="userName">@com.UserName: </p>
-                                <p>@com.Text</p>
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-    
-</div>
+}else{
+    <h1 class="profileErr">Requested profile not found!</h1>
+}
