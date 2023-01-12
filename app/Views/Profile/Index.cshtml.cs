@@ -56,7 +56,7 @@ public class Profile : Controller
 
         ViewData["isConnected"] = connection.Count;
 
-        ViewData["userName"] = sqlRes[0].FirstName + " " + sqlRes[0].LastName;
+        ViewData["userName"] = sqlResa[0].FirstName + " " + sqlRes[0].LastName;
         ViewData["userPhoto"] = sqlRes[0].Photo;
 
         ViewData["userPhoto1"] = sqlResa[0].Photo;
