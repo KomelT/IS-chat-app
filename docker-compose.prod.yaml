@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  app-prod:
+    build:
+      context: app
+      dockerfile: dockerfile.prod
+    ports:
+      - 3000:80
+  db-prod:
+    image: mcr.microsoft.com/mssql/server
+    restart: always
+    environment:
+      MSSQL_SA_PASSWORD: "drealSocial-app"
+      ACCEPT_EULA: "Y"
+    ports:
+      - 1433:1433
+    volumes:
+      - sqlvolume:/var/opt/mssql
+
+volumes:
+  sqlvolume:
