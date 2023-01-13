@@ -1,5 +1,8 @@
 # D-real social app
 
+## Disclaimer
+### This app was created for educational pourposes only, don't use app or any code from app in real life!! Creators aren't liable for any damages done by using code from this repository.
+
 ## Ideology
 
 D-real social app is written in .NET for an Information Systems class at the Faculty of Computer and Information Science University of Ljubljana. <br><br>
